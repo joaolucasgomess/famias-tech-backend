@@ -11,11 +11,12 @@ export default class Visitor extends User {
         _name: string,
         _email: string,
         _password: string,
+        _role: string,
         _id_visitor: string,
         _office: string,
         _id_company: string
     ){
-        super(_id, _name, _email, _password)
+        super(_id, _name, _email, _password, _role)
         this._id_visitor = _id_visitor
         this._office = _office
         this._id_company = _id_company

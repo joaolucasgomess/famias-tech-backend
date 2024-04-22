@@ -18,8 +18,8 @@ export class TableController {
         try{
             const token = req.headers.authorization as string
             const { id } = req.params
-            await this.tableBusiness.checkVisit(token, id)
-            res.status(201).send('Mesa visitada')
+            const result = await this.tableBusiness.checkVisit(token, id)
+            res.status(201).send(result)
         }catch(err: any){
             res.status(err.statusCode || 400).send({ error: err.message })
         }

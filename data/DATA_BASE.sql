@@ -2,7 +2,8 @@ CREATE TABLE Usuario(
 	id_usuario VARCHAR PRIMARY KEY,
 	nome VARCHAR NOT NULL,
 	email VARCHAR NOT NULL UNIQUE,
-	senha VARCHAR NOT NULL 
+	senha VARCHAR NOT NULL,
+	tipo_usuario VARCHAR NOT NULL 
 );
 
 CREATE TABLE Aluno( 
@@ -29,13 +30,13 @@ CREATE TABLE Projeto(
  	nome_projeto VARCHAR NOT NULL,  
  	descricao_projeto VARCHAR NOT NULL,  	
  	url_projeto VARCHAR NOT NULL UNIQUE,  
- 	id_usuario VARCHAR REFERENCES Usuario (id_usuario)
+ 	id_usuario VARCHAR REFERENCES Usuario (id_usuario),
+	id_mesa VARCHAR REFERENCES Mesa (id_mesa)
 ); 
 
 CREATE TABLE Mesa( 
  	id_mesa VARCHAR PRIMARY KEY,  
- 	numero_mesa INT NOT NULL UNIQUE,  
- 	id_projeto VARCHAR REFERENCES Projeto (id_projeto) 
+ 	numero_mesa INT NOT NULL UNIQUE
 ); 
 
 
@@ -44,4 +45,3 @@ CREATE TABLE Mesa_visitada(
  	id_visitante VARCHAR REFERENCES Visitante (id_visitante),  
 	PRIMARY KEY(id_mesa, id_visitante)
 ); 
-

@@ -55,6 +55,10 @@ export class ProjectBusiness {
                 throw new CustomError("Token inválido", 401)
             }
 
+            if(tokenData.role != 'aluno'){
+                throw new CustomError('Apenas alunos podem adicionar projetos', 403)
+            }
+
             const { name, description,  url, idTable } = project
 
             if(!name || !description || !url || !idTable){

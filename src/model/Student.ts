@@ -10,10 +10,11 @@ export default class Student extends User {
         _name: string,
         _email: string,
         _password: string,
+        _role: string,
         _id_student: string,
         _registration: string
     ){
-        super(_id, _name, _email, _password)
+        super(_id, _name, _email, _password, _role)
         this._id_student = _id_student
         this._registration = _registration
     }

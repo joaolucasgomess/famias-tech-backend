@@ -31,8 +31,6 @@ export default class ProjectData implements IProjectData {
             const result = await db('projeto')
                 .where('url_projeto', url)
 
-           
-
             if(!result.length){
                 
                 return null

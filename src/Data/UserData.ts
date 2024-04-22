@@ -19,7 +19,8 @@ export default class UserData implements IUserData {
                 result[0].id_usuario,
                 result[0].nome,
                 result[0].email,
-                result[0].senha   
+                result[0].senha,
+                result[0].tipo_usuario  
             )
 
         }catch(err: any){
@@ -43,6 +44,7 @@ export default class UserData implements IUserData {
                 result[0].nome,
                 result[0].email,
                 result[0].senha,
+                result[0].tipo_usuario,
                 result[0].id_aluno,
                 result[0].matricula   
             )
@@ -60,7 +62,8 @@ export default class UserData implements IUserData {
                         id_usuario: student.id,
                         nome: student.name,
                         email: student.email,
-                        senha: student.password
+                        senha: student.password,
+                        tipo_usuario: student.role
                     })
 
                 await trx('aluno')
@@ -71,7 +74,7 @@ export default class UserData implements IUserData {
                     })
             })
 
-        }catch(err){
+        }catch(err: any){
             throw new err(err.slqMessage || err.message)
         }
     }
@@ -84,7 +87,8 @@ export default class UserData implements IUserData {
                         id_usuario: visitor.id,
                         nome: visitor.name,
                         email: visitor.email,
-                        senha: visitor.password
+                        senha: visitor.password,
+                        tipo_usuario: visitor.role
                     })
                 await trx('visitante')
                     .insert({
@@ -94,7 +98,7 @@ export default class UserData implements IUserData {
                         id_usuario: visitor.id
                     })
             })
-        }catch(err){
+        }catch(err: any){
             throw new err(err.slqMessage || err.message)
         }
     }

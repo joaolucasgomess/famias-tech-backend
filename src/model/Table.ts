@@ -13,8 +13,16 @@ export default class Table {
         this._number = value
     }
 
+    public get visited(): boolean {
+        return this._visited
+    }
+    public set visited(value: boolean) {
+        this._visited = value
+    }
+
     constructor(
         private _id: string,
-        private _number: number
+        private _number: number,
+        private _visited?: boolean
     ){}
 }

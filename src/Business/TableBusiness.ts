@@ -24,7 +24,7 @@ export class TableBusiness {
                 throw new CustomError("Token inválido", 401)
             }
 
-            const allTables = this.tableData.selectAllTables()
+            const allTables = await this.tableData.selectAllTables(tokenData.id)
             return allTables
 
         }catch(err: any) {
@@ -44,18 +44,29 @@ export class TableBusiness {
                 throw new CustomError('Token inválido', 401)
             }
 
+            if(tokenData.role != 'visitante'){
+                throw new CustomError('Apenas visitantes tem permissão para marcar mesas como visitadas!', 403)
+            }
+
             if(!id){
                 throw new CustomError('Campos faltantes ou inválidos', 422)
             }
 
             const tableExists = await this.tableData.selectTableById(id)
-            
-           
+              
             if(!tableExists){
                 throw new CustomError('Mesa não existe', 404)
             }
-            
-            await this.tableData.insertCheckVisit(id, tokenData.id)                
+
+            const tableChecked = await this.tableData.selectCheckedTableById(id, tokenData.id)
+
+            if(tableChecked){
+                await this.tableData.deleteCheckVisit(id, tokenData.id)
+                return 'Visita à mesa cancelada!' 
+            }else{
+                await this.tableData.insertCheckVisit(id, tokenData.id)
+                return 'Mesa visitada!' 
+            }               
             
         }catch(err: any) {
             throw new CustomError(err.message, err.statusCode)

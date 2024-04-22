@@ -19,8 +19,7 @@ app.use((req, res, next) => {
 
 app.use('/user/', userRouter)
 app.use('/table/', tableRouter)
-app.use('/project/',projectRouter)
-/*app.post('/project/add')*/
+app.use('/project/', projectRouter)
 
 app.get('/', async(req, res) => {
   try{

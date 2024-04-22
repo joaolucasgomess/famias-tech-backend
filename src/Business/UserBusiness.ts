@@ -42,9 +42,9 @@ export class UserBusiness {
             }else if(input.id_company && input.office){
                 const { id_company, office } = input
                 return this.singUpVisitor({ name, email, password, office, id_company })
-            }else{
-                throw new CustomError('Tente novamente', 400)
             }
+            
+            throw new CustomError('Tente novamente', 400)
         }catch(err: any){
             throw new CustomError(err.message, err.statusCode)
         }
@@ -56,26 +56,25 @@ export class UserBusiness {
             
             const registeredStudent = await this.userData.selectUserByRegistration(registration)
             
-
             if(registeredStudent){
                 console.log('parando a execução do código quando cai nesse erro')
                 throw new CustomError('Aluno já registrado', 409)
             }
 
             const id = generatedId()
-            const idStudent = generatedId()
             const hashedPassword = await this.hashManager.hash(password)
             const student = new Student(
                 id,
                 name,
                 email,
                 hashedPassword,
-                idStudent,
+                'aluno',
+                id,
                 registration
             )
             
             await this.userData.insertStudent(student)
-            const token = this.authenticator.generateToken({ id })
+            const token = this.authenticator.generateToken({ id, role: student.role })
             return token
  
         }catch(err: any){
@@ -88,19 +87,19 @@ export class UserBusiness {
             const { name, email, password, id_company, office } = input
 
             const id = generatedId()
-            const idVisitor = generatedId()
             const hashedPassword = await this.hashManager.hash(password)
             const visitor = new Visitor(
                 id,
                 name,
                 email,
                 hashedPassword,
-                idVisitor,
+                'visitante',
+                id,
                 office,
                 id_company
             )
             await this.userData.insertVisitor(visitor)
-            const token = this.authenticator.generateToken({ id })
+            const token = this.authenticator.generateToken({ id, role: visitor.role })
             return token
 
         }catch(err: any){
@@ -128,7 +127,7 @@ export class UserBusiness {
                 throw new CustomError('Senha incorreta', 401)
             }
 
-            const token = this.authenticator.generateToken({ id: user.id })
+            const token = this.authenticator.generateToken({ id: user.id, role: user.role })
             return token
 
         }catch(err: any){
