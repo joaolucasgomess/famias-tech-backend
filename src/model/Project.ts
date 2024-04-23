@@ -43,6 +43,6 @@ export default class Project {
         private _description: string,
         private _url: string,
         private _id_user: string,
-        private _id_table?: string
+        private _id_table: string
     ){}
 }

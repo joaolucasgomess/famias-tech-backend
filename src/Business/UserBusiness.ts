@@ -57,7 +57,6 @@ export class UserBusiness {
             const registeredStudent = await this.userData.selectUserByRegistration(registration)
             
             if(registeredStudent){
-                console.log('parando a execução do código quando cai nesse erro')
                 throw new CustomError('Aluno já registrado', 409)
             }
 

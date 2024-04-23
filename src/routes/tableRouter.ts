@@ -9,4 +9,4 @@ const tableBusiness = new TableBusiness(new TableData())
 const tableController = new TableController(tableBusiness)
 
 tableRouter.get('/', tableController.getAllTables)
-tableRouter.post('/checkVisit/:id', tableController.checkVisit)
+tableRouter.put('/checkVisit/:id', tableController.checkVisit)

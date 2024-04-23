@@ -6,25 +6,25 @@ export default class TableData implements ITableData {
 
     selectAllTables = async(id_user: string): Promise<Table[]> => {
         try{
-            const result = await db('mesa as m')
-                .leftJoin('mesa_visitada as mv', 'm.id_mesa', 'mv.id_mesa')
-                .where('mv.id_usuario', id_user)
-                .orWhere('mv.id_usuario', null)
+            const result = await db.raw(`
+                select
+                    m.id_mesa,
+                    m.numero_mesa,
+                    case when mv.id_usuario = '${id_user}'
+                    then 'true'
+                    else 'false'
+                    end as visitated
+                from mesa as m
+                left join mesa_visitada as mv using(id_mesa)
+                order by id_mesa, visitated desc
+            `)
 
-            const allTables = result.map((table) => {
-                if(table.id_usuario == id_user){
-                    return new Table(
-                        table.id_mesa,
-                        table.numero_mesa,
-                        true
-                    )
-                }else{
-                    return new Table(
-                        table.id_mesa,
-                        table.numero_mesa,
-                        false
-                    )
-                }
+            const allTables = result.rows.map((table: any) => {
+                return new Table(
+                    table.id_mesa,
+                    table.numero_mesa,
+                    table.visitated
+                )
             })
 
             return allTables

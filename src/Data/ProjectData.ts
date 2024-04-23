@@ -18,7 +18,8 @@ export default class ProjectData implements IProjectData {
                 result[0].nome_projeto,
                 result[0].descricao_projeto,
                 result[0].url_projeto,
-                result[0].id_usuario
+                result[0].id_usuario,
+                result[0].id_mesa
             )   
         }catch(err: any){
             throw new err(err.slqMessage || err.message)
@@ -41,12 +42,35 @@ export default class ProjectData implements IProjectData {
                 result[0].nome_projeto,
                 result[0].descricao_projeto,
                 result[0].url_projeto,
-                result[0].id_usuario
+                result[0].id_usuario,
+                result[0].id_mesa
             )   
         }catch(err: any){
             throw new err(err.slqMessage || err.message)
         }
+    }
 
+    selectProjectByIdTable = async(id_table: string): Promise<Project | null> => {
+        try{
+            const result = await db('projeto')
+                .where('id_mesa', id_table)
+
+            if(!result.length){
+                
+                return null
+            }
+
+            return new Project(
+                result[0].id_projeto,
+                result[0].nome_projeto,
+                result[0].descricao_projeto,
+                result[0].url_projeto,
+                result[0].id_usuario,
+                result[0].id_mesa
+            )   
+        }catch(err: any){
+            throw new err(err.slqMessage || err.message)
+        }
     }
 
     insertProject = async(project: Project): Promise<void> => {

@@ -66,10 +66,15 @@ export class ProjectBusiness {
             }
 
             const projectByUrl = await this.projectData.selectProjectByUrl(url)
-            console.log(projectByUrl)
 
             if(projectByUrl){
                 throw new CustomError('Projeto ja cadastrado', 409)
+            }
+
+            const projectByIdTable = await this.projectData.selectProjectByIdTable(idTable)
+
+            if(projectByIdTable){
+                throw new CustomError('Mesa selecionada já contém um projeto.', 403)
             }
 
             const id = generatedId()
@@ -82,7 +87,6 @@ export class ProjectBusiness {
                 idTable
             )
             await this.projectData.insertProject(newProject)
-
 
         }catch(err: any) {
             throw new CustomError(err.message, err.statusCode)

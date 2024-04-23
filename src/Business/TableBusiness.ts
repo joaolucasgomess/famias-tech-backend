@@ -1,4 +1,5 @@
 import { ITableData } from '../model/InterfaceTableData'
+import Table from '../model/Table'
 import { Authenticator } from '../services/Authenticator'
 import { CustomError } from '../Utils/CustomError'
 
@@ -25,7 +26,16 @@ export class TableBusiness {
             }
 
             const allTables = await this.tableData.selectAllTables(tokenData.id)
-            return allTables
+
+            const filteredTables = allTables.filter((table, index) => {
+                if(index == 0){
+                    return table 
+                }else if(table.id != allTables[index - 1].id){
+                    return table
+                }
+            })
+
+            return filteredTables
 
         }catch(err: any) {
             throw new CustomError(err.message, err.statusCode)
